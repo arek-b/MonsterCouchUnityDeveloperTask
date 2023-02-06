@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 namespace UI
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] MenuManager menuManager = null;
+        [SerializeField] private EventSystem eventSystem = null;
+        [SerializeField] private MenuManager menuManager = null;
 
         // Button references
         [SerializeField] private ButtonPlay buttonPlay = null;
@@ -17,6 +19,7 @@ namespace UI
 
         private void Awake()
         {
+            Assert.IsNotNull(eventSystem);
             Assert.IsNotNull(menuManager);
             Assert.IsNotNull(buttonPlay);
             Assert.IsNotNull(buttonSettings);
@@ -25,6 +28,7 @@ namespace UI
 
         private void OnEnable()
         {
+            eventSystem.SetSelectedGameObject(buttonPlay.gameObject);
             buttonPlay.PressedPlay += Play;
             buttonSettings.PressedSettings += Settings;
             buttonExit.PressedExit += Exit;
